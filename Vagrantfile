@@ -87,6 +87,5 @@ Vagrant.configure(2) do |config|
   #   sudo apt-get update
   #   sudo apt-get install -y apache2
   # SHELL
-  config.vm.provision "file", source: "i3-config", destination: ".config/i3/config"
   config.vm.provision "shell", path: "bootstrap.sh"
 end
