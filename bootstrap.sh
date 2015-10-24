@@ -24,4 +24,4 @@ systemctl start gdm
 systemctl enable vboxservice
 systemctl start vboxservice
 
-sudo -u vagrant sh -c "cd ${USERHOME}; git clone --recursive https://github.com/brson/multirust; cd multirust; git submodule update --init; ./build.sh && sudo ./install.sh; multirust update stable; multirust update nightly; multirust default nightly"
+sudo -u vagrant sh -c "cd ${USERHOME}; git clone --recursive https://github.com/brson/multirust; cd multirust; git pull; git submodule update --init; ./build.sh && sudo ./install.sh; multirust update stable; multirust update nightly; multirust default nightly"
