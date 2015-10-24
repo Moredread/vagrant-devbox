@@ -12,7 +12,7 @@ sudo -u vagrant git clone --depth=1 https://github.com/robbyrussell/oh-my-zsh ${
 fi
 
 if [ ! -d "${USERHOME}/.dotfiles" ]; then
-sudo -u vagrant git clone --depth=1 https://github.com/Moredread/dotfiles ${USERHOME}/.dotfiles
+sudo -u vagrant git clone https://github.com/Moredread/dotfiles ${USERHOME}/.dotfiles
 else
 sudo -u vagrant sh -c "cd ${USERHOME}/.dotfiles; git pull; git submodule update --init"
 fi
