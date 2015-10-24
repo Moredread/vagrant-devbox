@@ -1,33 +1,27 @@
 #!/bin/sh
 
+USERHOME=/home/vagrant
+
 pacman -Suy --noconfirm
 pacman -R --noconfirm virtualbox-guest-utils-nox
-pacman -S --noconfirm --needed less zsh i3 gdm dmenu git tk gnome-keyring python2 python2-pip python-pip xorg-server-utils xorg-apps virtualbox-guest-utils gvim rxvt-unicode firefox chromium
+pacman -S --noconfirm --needed less zsh i3 gdm dmenu git tk gnome-keyring python2 python2-pip python-pip xorg-server-utils xorg-apps virtualbox-guest-utils gvim rxvt-unicode firefox chromium xclip
 
-cat <<EOF >/home/vagrant/.autostart.sh
-#!/bin/sh
+chsh -s /bin/zsh vagrant
+if [ ! -d "${USERHOME}/.oh-my-zsh" ]; then
+sudo -u vagrant git clone --depth=1 https://github.com/robbyrussell/oh-my-zsh ${USERHOME}/.oh-my-zshs
+fi
 
-sleep 10
-/usr/bin/VBoxClient-all
-EOF
-chmod 755 /home/vagrant/.autostart.sh
-chown vagrant:vagrant /home/vagrant/.autostart.sh
+if [ ! -d "${USERHOME}/.dotfiles" ]; then
+sudo -u vagrant git clone --depth=1 https://github.com/Moredread/dotfiles ${USERHOME}/.dotfiles
+else
+sudo -u vagrant sh -c "cd ${USERHOME}/.dotfiles; git pull; git submodule update --init"
+fi
 
-mkdir -p /home/vagrant/.config/autostart
-cat <<EOF >/home/vagrant/.config/autostart/xinitrc.desktop
-[Desktop Entry]
-Name=Autostart
-Comment=Automatically start listed applications when gdm starts.
-Exec=.autostart.sh
-Icon=/usr/share/icons/5.png
-Terminal=false
-Type=Application
-Categories=Configuration
-EOF
-chmod 755 /home/vagrant/.config/autostart
-chown vagrant:vagrant /home/vagrant/.config -R
+sudo -u vagrant sh -c "cd ${USERHOME}/.dotfiles; make"
 
 systemctl enable gdm
 systemctl start gdm
 systemctl enable vboxservice
 systemctl start vboxservice
+
+sudo -u vagrant sh -c "cd ${USERHOME}; git clone --recursive https://github.com/brson/multirust; cd multirust; git submodule update --init; ./build.sh && sudo ./install.sh; multirust update stable; multirust update nightly; multirust default nightly"
