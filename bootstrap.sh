@@ -23,9 +23,21 @@ fi
 sudo -u vagrant sh -c "mkdir -p ~/.vim/autoload ~/.vim/bundle && curl -LSso ~/.vim/autoload/pathogen.vim https://tpo.pe/pathogen.vim"
 
 if [ ! -d "${USERHOME}/.vim/bundle/rust.vim" ]; then
-sudo -u vagrant git clone https://github.com/rust-lang/rust.vim ${USERHOME}/.vim/bundle/rust.vim
+sudo -u vagrant git clone https://github.com/rust-lang/rust.vim ${USERHOME}/.vim/bundle/rust.vim --recursive
 else
 sudo -u vagrant sh -c "cd ${USERHOME}/.vim/bundle/rust.vim; git pull; git submodule update --init"
+fi
+
+if [ ! -d "${USERHOME}/.vim/bundle/racer.vim" ]; then
+sudo -u vagrant git clone https://github.com/racer-rust/vim-racer ${USERHOME}/.vim/bundle/racer.vim --recursive
+else
+sudo -u vagrant sh -c "cd ${USERHOME}/.vim/bundle/racer.vim; git pull; git submodule update --init"
+fi
+
+if [ ! -d "${USERHOME}/rust" ]; then
+sudo -u vagrant git clone https://github.com/rust-lang/rust ${USERHOME}/rust --depth 10
+else
+sudo -u vagrant sh -c "cd ${USERHOME}/rust; git pull"
 fi
 
 sudo -u vagrant sh -c "cd ${USERHOME}/.dotfiles; make"
