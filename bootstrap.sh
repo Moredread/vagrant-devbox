@@ -6,7 +6,7 @@ pacman -Suy --noconfirm
 pacman -R --noconfirm virtualbox-guest-utils-nox
 pacman -S --noconfirm --needed less zsh i3 gdm dmenu git tk gnome-keyring python2 python2-pip python-pip xorg-server-utils xorg-apps virtualbox-guest-utils gvim rxvt-unicode firefox chromium xclip ttf-bitstream-vera mesa-demos qt4 xsel
 pacman -S --noconfirm --needed wget docker lxc btrfs-progs lua-filesystem lua-alt-getopt ghc cabal-install happy haddock alex ccache cifs-utils atop sysstat pv python-nose python-scipy python-tox jdk8-openjdk
-pacman -S --noconfirm --needed texlive-most texlive-lang evince pandoc cmake swig python-pexpect python2-pexpect gdb
+pacman -S --noconfirm --needed texlive-most texlive-lang evince pandoc cmake swig python-pexpect python2-pexpect gdb go
 
 chsh -s /bin/zsh vagrant
 if [ ! -d "${USERHOME}/.oh-my-zsh" ]; then
@@ -27,6 +27,16 @@ if [ ! -d "${USERHOME}/.vim/bundle/rust.vim" ]; then
 sudo -u vagrant git clone https://github.com/rust-lang/rust.vim ${USERHOME}/.vim/bundle/rust.vim --recursive
 else
 sudo -u vagrant sh -c "cd ${USERHOME}/.vim/bundle/rust.vim; git pull; git submodule update --init"
+fi
+
+if [ ! -d "${USERHOME}/.vim/bundle/gundo" ]; then
+sudo -u vagrant git clone https://github.com/sjl/gundo.vim.git ${USERHOME}/.vim/bundle/gundo --recursive
+else
+sudo -u vagrant sh -c "cd ${USERHOME}/.vim/bundle/gundo; git pull; git submodule update --init"
+fi
+
+if [ ! -d "${USERHOME}/.vim/undodir" ]; then
+sudo -u vagrant ${USERHOME}/.vim/undodir
 fi
 
 if [ ! -d "${USERHOME}/.vim/bundle/racer.vim" ]; then
